@@ -1,6 +1,4 @@
-def run_bot():
-    """الدالة الرئيسية لتشغيل البوت"""
-    pass
+from screen_capture import run_screen_capture
 
 if __name__ == "__main__":
-    run_bot()
+    run_screen_capture()
