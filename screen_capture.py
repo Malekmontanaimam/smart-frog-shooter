@@ -5,12 +5,22 @@ import time
 
 from config import monitor, colors
 
+from image_preprocessing import (
+    enhance_colors,
+    remove_visual_effects,
+    filter_moving_objects
+)
 
 def run_screen_capture():
     with mss.mss() as sct:
         while True:
             img = np.array(sct.grab(monitor))
             frame = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+                        
+            frame = enhance_colors(frame)
+            clean_frame = remove_visual_effects(frame)
+            processed_frame = filter_moving_objects(clean_frame)
+
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
             for color_name, (lower, upper) in colors.items():
