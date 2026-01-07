@@ -168,7 +168,7 @@ def detect_shooter(frame: np.ndarray) -> Optional[Tuple[int, int]]:
     cx, cy = w // 2, h // 2
 
     if frame.ndim != 3 or frame.shape[2] != 3:
-        return (cx, cy)
+        return None
 
 
     roi_w, roi_h = int(w * 0.45), int(h * 0.45)
@@ -181,7 +181,7 @@ def detect_shooter(frame: np.ndarray) -> Optional[Tuple[int, int]]:
 
     hsv_candidates = _to_hsv_candidates(roi)
     if not hsv_candidates:
-        return (cx, cy)
+        return None
 
     def shooter_on_hsv(hsv: np.ndarray) -> Optional[Tuple[int, int]]:
 
@@ -210,10 +210,9 @@ def detect_shooter(frame: np.ndarray) -> Optional[Tuple[int, int]]:
     candidates = [c for c in candidates if c is not None]
 
     if candidates:
-
         return min(candidates, key=lambda p: (p[0] - cx) ** 2 + (p[1] - cy) ** 2)
 
-    return (cx, cy)
+    return None
 
 
 def detect_effects(frame: np.ndarray):
@@ -237,6 +236,5 @@ def detect_effects(frame: np.ndarray):
 
 
     bright = cv2.inRange(hsv, (0, 30, 230), (179, 255, 255))
-    ratio = float(np.count_nonzero(bright)) / float(bright.size)
-
+    ratio = float(np.count_nonzero(bright)) / float(bright.shape[0] * bright.shape[1])
     return ratio > 0.02
