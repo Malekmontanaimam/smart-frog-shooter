@@ -99,9 +99,9 @@ def detect_balls(frame: np.ndarray) -> List[Dict[str, Any]]:
             if mask_total is None:
                 continue
 
-            # تنظيف الماسك
+
             mask = cv2.morphologyEx(mask_total, cv2.MORPH_OPEN, kernel, iterations=1)
-            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+
 
             contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -215,7 +215,7 @@ def detect_shooter(frame: np.ndarray) -> Optional[Tuple[int, int]]:
     return None
 
 
-def detect_effects(frame: np.ndarray):
+def detect_effects(frame: np.ndarray) -> bool:
     """كشف المؤثرات البصرية (ومضات/انفجارات) بشكل سريع.
 
     Heuristic:

@@ -5,6 +5,7 @@ import time
 
 from config import monitor, colors
 
+
 from image_preprocessing import (
     enhance_colors,
     remove_visual_effects,
